@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walentynkowa Niespodzianka</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffe6f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .hidden {
+            display: none;
+        }
+        button {
+            background-color: #ff6699;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #ff3366;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        #gif-container {
+          
+            height: 500px;
+        }
+        #no-btn {
+            position: absolute;
+        }
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 20px;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            from {
+                transform: translateY(-100px);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        .wojtek {
+            
+        }
+
+    </style>
+</head>
+<body>
+    <audio id="background-music" loop>
+        <source src="himandi.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div id="step1">
+        <div id="gif-container"><img src="datapink.gif" alt="Animacja" id="gif"></div>
+        <h2>Podaj swoje imię i nazwisko:</h2>
+        <input type="text" id="name" placeholder="Imię i nazwisko">
+        <button onclick="checkName()">Dalej</button>
+        <p id="error" class="hidden">Taka osoba nie znajduje się w bazie danych, bo chłopak ma w głowie tylko jedną dziewczynę! ❤️</p>
+    </div>
+    
+    <div id="step2" class="hidden">
+        <h2>Czy to jest Twój chłopak?</h2>
+        <img src="wojtek.JPEG" width="30%" height="30%" id="wojtek" alt="Wasze wspólne zdjęcie"> <div style="clear: both;"></div> 
+        <button onclick="confirmBoyfriend(true)">Tak</button>
+        <button onclick="confirmBoyfriend(false)">Nie</button>
+    </div>
+    
+    <div id="step3" class="hidden">
+        <h2 id="valentine-text">Czy zostaniesz moją Walentynką? 💖</h2>
+        <img src="przed.JPEG" width="40%" height="40%" alt="Zdjęcie przed kliknięciem" id="valentine-img"> <div style="clear: both;"></div>
+        <button onclick="finalResponse()" id="yes-btn">Tak</button>
+        <button id="no-btn">Nie</button>
+    </div>
+
+    <script>
+        function checkName() {
+            const name = document.getElementById("name").value;
+            if (name.toLowerCase() === "natalia sawczyszyn") {
+                document.getElementById("step1").classList.add("hidden");
+                document.getElementById("step2").classList.remove("hidden");
+            } else {
+                document.getElementById("error").classList.remove("hidden");
+            }
+        }
+
+        function confirmBoyfriend(isCorrect) {
+            if (isCorrect) {
+                document.getElementById("step2").classList.add("hidden");
+                document.getElementById("step3").classList.remove("hidden");
+            } else {
+                alert("Jak to nie jest Twój chłopak proszę opuścić stronę");
+            }
+        }
+
+        document.getElementById("no-btn").addEventListener("mouseover", function() {
+            this.style.position = "absolute";
+            this.style.top = Math.random() * window.innerHeight + "px";
+            this.style.left = Math.random() * window.innerWidth + "px";
+        });
+
+        function finalResponse() {
+            document.getElementById("valentine-img").src = "po.JPEG";
+            document.getElementById("yes-btn").style.display = "none";
+            document.getElementById("no-btn").style.display = "none";
+            document.getElementById("valentine-text").innerText = "❤️HUUUUUUUUURA!❤️";
+            
+            let textElement = document.createElement("p");
+            textElement.innerText = "Kocham Cię skarbie całym sercem i cieszę się niezmiernie, że chcesz zostać moją walentynką <3";
+            document.getElementById("step3").appendChild(textElement);
+            
+            document.getElementById("background-music").play();
+            startHeartsAnimation();
+        }
+        
+        function startHeartsAnimation() {
+            setInterval(() => {
+                let heart = document.createElement("div");
+                heart.innerHTML = "❤️";
+                heart.classList.add("heart");
+                heart.style.left = Math.random() * window.innerWidth + "px";
+                heart.style.top = "-20px";
+                heart.style.fontSize = Math.random() * 20 + 10 + "px";
+                heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+                document.body.appendChild(heart);
+                setTimeout(() => { heart.remove(); }, 5000);
+            }, 200);
+        }
+    </script>
+</body>
+</html>
